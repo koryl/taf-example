@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<suite name="Example Test Framework">
+  <test name="TC001 - Should log in with correct credentials">
+    <parameter name="Data1" value="store@example.com"/>
+    <parameter name="Data2" value="12345"/>
+    <classes>
+      <class name="io.github.koryl.test.framework.tests.TC001_ShouldLogInWithCorrectCredentials"/>
+    </classes>
+  </test>
+  <test name="TC002 - Should not log in with incorrect password">
+    <parameter name="Data1" value="store@example.com"/>
+    <parameter name="Data2" value="XXXXX"/>
+    <classes>
+      <class name="io.github.koryl.test.framework.tests.TC002_ShouldNotLogInWithIncorrectCredentials"/>
+    </classes>
+  </test>
+</suite>

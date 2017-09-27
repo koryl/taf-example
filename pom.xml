@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.koryl.test</groupId>
+    <artifactId>framework</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <modules>
+        <module>repository</module>
+        <module>utilities</module>
+        <module>auto-tests</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <version.arquillian>1.1.13.Final</version.arquillian>
+        <version.arquillian.drone>2.4.2</version.arquillian.drone>
+        <version.arquillian.graphene>2.3.1</version.arquillian.graphene>
+        <version.selenium>3.5.3</version.selenium>
+        <version.testng>6.11</version.testng>
+        <version.slf4j>1.7.25</version.slf4j>
+        <version.logback>1.2.3</version.logback>
+        <version.fillo>1.15</version.fillo>
+        <version.fasterxml.jackson.dataformat>2.9.0.pr4</version.fasterxml.jackson.dataformat>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.koryl.test</groupId>
+                <artifactId>repository</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.koryl.test</groupId>
+                <artifactId>auto-tests</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.koryl.test</groupId>
+                <artifactId>utilities</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Arquillian Core dependencies -->
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${version.arquillian}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Arquillian Drone dependencies and WebDriver/Selenium dependencies -->
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-bom</artifactId>
+                <version>${version.arquillian.drone}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Arquillian Graphene dependencies -->
+            <dependency>
+                <groupId>org.jboss.arquillian.graphene</groupId>
+                <artifactId>graphene-webdriver</artifactId>
+                <version>${version.arquillian.graphene}</version>
+                <type>pom</type>
+            </dependency>
+            <!-- TestNG dependencies -->
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${version.testng}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.testng</groupId>
+                <artifactId>arquillian-testng-standalone</artifactId>
+                <version>${version.arquillian}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Selenium dependencies -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${version.selenium}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-support</artifactId>
+                <version>${version.selenium}</version>
+            </dependency>
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${version.logback}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${version.logback}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <!-- Reading and querying from .xls files -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-xml</artifactId>
+                <version>${version.fasterxml.jackson.dataformat}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.codoid.products</groupId>
+                <artifactId>fillo</artifactId>
+                <version>${version.fillo}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

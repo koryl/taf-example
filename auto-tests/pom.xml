@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>framework</artifactId>
+        <groupId>io.github.koryl.test</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>auto-tests</artifactId>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.koryl.test</groupId>
+            <artifactId>repository</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.koryl.test</groupId>
+            <artifactId>utilities</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.testng</groupId>
+            <artifactId>arquillian-testng-standalone</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
