@@ -1,7 +1,6 @@
 package io.github.koryl.test.framework.utilities.propertieshandler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.github.koryl.test.framework.utilities.logger.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,19 +8,17 @@ import java.util.Properties;
 
 public class PathHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PathHandler.class);
-
     private static Properties _properties;
 
     private static void init() {
         if (_properties == null) {
             _properties = new Properties();
-            InputStream configurationFileIS = PathHandler.class.getClassLoader().getResourceAsStream("config/path.properties");
+            InputStream configurationFileIS = PathHandler.class.getClassLoader().getResourceAsStream("path.properties");
             try {
                 _properties.load(configurationFileIS);
-                LOGGER.debug("Properties file was loaded.");
+                Log.debug("Properties file was loaded.");
             } catch (IOException e) {
-                LOGGER.debug("Exception: " + e.getMessage());
+                Log.debug("Exception: " + e.getMessage());
             }
         }
     }

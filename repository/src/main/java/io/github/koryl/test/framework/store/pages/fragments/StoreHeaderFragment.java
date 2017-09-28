@@ -1,4 +1,4 @@
-package io.github.koryl.test.framework.pages.fragments;
+package io.github.koryl.test.framework.store.pages.fragments;
 
 import org.jboss.arquillian.graphene.GrapheneElement;
 import org.openqa.selenium.support.FindBy;

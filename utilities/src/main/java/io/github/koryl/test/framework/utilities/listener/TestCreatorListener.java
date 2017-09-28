@@ -1,5 +1,6 @@
 package io.github.koryl.test.framework.utilities.listener;
 
+import io.github.koryl.test.framework.utilities.logger.Log;
 import io.github.koryl.test.framework.utilities.suitegenerator.TestSuiteGenerator;
 import io.github.koryl.test.framework.utilities.propertieshandler.PathHandler;
 import org.testng.IAlterSuiteListener;
@@ -21,12 +22,12 @@ public class TestCreatorListener implements IAlterSuiteListener {
 
         ArrayList<Class<? extends ITestNGListener>> listenerList = new ArrayList<>();
         listenerList.add(TestStepsListener.class);
-        listenerList.add(TestReporterListener.class);
 
         String outputDirectoryPath = PathHandler.getPath("output.directory");
         testNG.setListenerClasses(listenerList);
         testNG.setTestSuites(suiteList);
         testNG.setOutputDirectory(outputDirectoryPath);
         testNG.run();
+        Log.debug("TestCreatorListener was invoked.");
     }
 }

@@ -1,4 +1,4 @@
-package io.github.koryl.test.framework.pages.objects;
+package io.github.koryl.test.framework.store.pages.objects;
 
 import org.jboss.arquillian.graphene.page.Location;
 

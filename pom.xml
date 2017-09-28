@@ -17,6 +17,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
 
         <version.arquillian>1.1.13.Final</version.arquillian>
@@ -24,8 +26,9 @@
         <version.arquillian.graphene>2.3.1</version.arquillian.graphene>
         <version.selenium>3.5.3</version.selenium>
         <version.testng>6.11</version.testng>
-        <version.slf4j>1.7.25</version.slf4j>
-        <version.logback>1.2.3</version.logback>
+        <version.log4j>1.2.17</version.log4j>
+        <version.extentreports>3.0.7</version.extentreports>
+        <version.javax.mail>1.6.0</version.javax.mail>
         <version.fillo>1.15</version.fillo>
         <version.fasterxml.jackson.dataformat>2.9.0.pr4</version.fasterxml.jackson.dataformat>
     </properties>
@@ -96,25 +99,23 @@
             </dependency>
             <!-- Logging -->
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${version.slf4j}</version>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${version.log4j}</version>
             </dependency>
+            <!-- Reporting -->
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${version.logback}</version>
+                <groupId>com.aventstack</groupId>
+                <artifactId>extentreports</artifactId>
+                <version>${version.extentreports}</version>
             </dependency>
+            <!-- Mailing -->
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${version.logback}</version>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${version.javax.mail}</version>
             </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>${version.slf4j}</version>
-            </dependency>
+
             <!-- Reading and querying from .xls files -->
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>

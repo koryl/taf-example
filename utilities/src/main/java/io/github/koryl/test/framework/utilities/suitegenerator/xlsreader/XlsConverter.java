@@ -5,22 +5,16 @@ import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import io.github.koryl.test.framework.utilities.logger.Log;
 import io.github.koryl.test.framework.utilities.suitegenerator.suite.Suite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator.Feature.*;
 import static java.util.Arrays.*;
 
 public class XlsConverter {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(XlsConverter.class);
 
     private final Fillo fillo;
     private final String filePath;
@@ -38,7 +32,7 @@ public class XlsConverter {
             Recordset recordset = connection.executeQuery(query);
             this.createSuite(recordset);
         } catch (FilloException e) {
-            LOGGER.error("Exception: " + e.getMessage());
+            Log.error("Exception: " + e.getMessage());
         } finally {
             connection.close();
         }
@@ -63,7 +57,7 @@ public class XlsConverter {
             xmlMapper.writerWithDefaultPrettyPrinter()
                     .writeValue(new File("src/test/resources/testng-generated.xml"), suite);
         } catch (Exception e) {
-            LOGGER.error("Exception: " + e.getMessage());
+            Log.error("Exception: " + e.getMessage());
         } finally {
             recordset.close();
         }

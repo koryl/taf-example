@@ -1,70 +1,68 @@
 package io.github.koryl.test.framework.utilities.listener;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import io.github.koryl.test.framework.utilities.logger.Log;
 import io.github.koryl.test.framework.utilities.propertieshandler.PathHandler;
-import org.apache.commons.io.FileUtils;
-import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.TestListenerAdapter;
+import io.github.koryl.test.framework.utilities.reporter.ReportManager;
+import io.github.koryl.test.framework.utilities.screenshooter.ScreenshotProvider;
+import org.testng.*;
 
-import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TestStepsListener extends TestListenerAdapter {
+public class TestStepsListener implements ITestListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestStepsListener.class);
+    private static ExtentReports extent = ReportManager.getInstance();
+    private static ThreadLocal<ExtentTest> parentTest = new ThreadLocal<>();
+    private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
-    private WebDriver driver;
-
-    public void onStart(ITestContext context) {
-        LOGGER.info("Started testing on: " + context.getStartDate()
-                .toString());
+    public synchronized void onStart(ITestContext testContext) {
+        ExtentTest parent = extent.createTest(testContext.getName());
+        parentTest.set(parent);
+        Log.startTestCase(testContext.getName());
+        Log.info("Started testing on: " + testContext.getStartDate().toString());
     }
 
-    public void onTestFailure(ITestResult tr) {
-        driver = GrapheneContext.getContextFor(Default.class).getWebDriver();
-        LOGGER.info("Test failure!");
-        String path = generateFileName(tr);
+    public synchronized void onFinish(ITestContext testContext) {
+        extent.flush();
+        Log.endTestCase();
+    }
+
+    public synchronized void onTestStart(ITestResult tr) {
+        ExtentTest child = parentTest.get().createNode(tr.getMethod().getMethodName());
+        test.set(child);
+        Log.info(tr.getName() + " started.");
+    }
+
+    public synchronized void onTestFailure(ITestResult tr) {
+
+        Log.info("Test failure!");
+        String filePath = generateFileName(tr);
+        ScreenshotProvider.takeSnapShot(filePath);
         try {
-            takeSnapShot(driver, path);
-            String image = "<a href='" + path + "'><img src='" + path
-                    + "' height='200' width='400' /></a>";
-            String message = tr.getThrowable().getMessage();
-            Reporter.log(image);
-            Reporter.log(message);
-        } catch (Exception e) {
-            LOGGER.error("Cannot take screenshot", e);
+            test.get().fail(tr.getThrowable(), MediaEntityBuilder.createScreenCaptureFromPath(filePath).build());
+        } catch (IOException e) {
+            Log.error("Exception: " + e.getMessage());
         }
     }
 
-    public void onTestSkipped(ITestResult tr) {
-        driver = GrapheneContext.getContextFor(Default.class).getWebDriver();
-        LOGGER.info("Test skipped!");
-        String path = generateFileName(tr);
-        try {
-            takeSnapShot(driver, path);
-        } catch (Exception e) {
-            LOGGER.error("Cannot take screenshot", e);
-        }
+    public synchronized void onTestSkipped(ITestResult tr) {
+
+        test.get().skip(tr.getThrowable());
+        Log.info("Test skipped!");
     }
 
-    public void onTestSuccess(ITestResult tr) {
-        driver = GrapheneContext.getContextFor(Default.class).getWebDriver();
-        LOGGER.info("Test success!");
-        String path = generateFileName(tr);
-        try {
-            takeSnapShot(driver, path);
-        } catch (Exception e) {
-            LOGGER.error("Cannot take screenshot", e);
-        }
+    public synchronized void onTestFailedButWithinSuccessPercentage(ITestResult tr) {
+
+    }
+
+    public synchronized void onTestSuccess(ITestResult tr) {
+
+        test.get().pass("Test passed");
+        Log.info("Test success!");
     }
 
     private String generateFileName(ITestResult tr) {
@@ -79,13 +77,5 @@ public class TestStepsListener extends TestListenerAdapter {
             result = "Failed-" + tr.getName() + "(" + date + ")";
         }
         return path + simpleName + "/" + result + ".png";
-    }
-
-    private static void takeSnapShot(WebDriver webdriver, String fileWithPath) throws Exception {
-
-        TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
-        File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
-        File destFile = new File(fileWithPath);
-        FileUtils.copyFile(srcFile, destFile);
     }
 }

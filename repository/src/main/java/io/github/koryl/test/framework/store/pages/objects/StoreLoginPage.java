@@ -1,5 +1,6 @@
-package io.github.koryl.test.framework.pages.objects;
+package io.github.koryl.test.framework.store.pages.objects;
 
+import io.github.koryl.test.framework.utilities.logger.Log;
 import org.jboss.arquillian.graphene.page.Location;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +18,7 @@ public class StoreLoginPage extends StoreAbstractPage{
         email.sendKeys(login);
         passwd.sendKeys(password);
         signIn.click();
-        LOGGER.info("User typed credentials and clicked Sign In button.");
+        Log.info("User typed credentials and clicked Sign In button.");
     }
 
     public boolean isAt(){
